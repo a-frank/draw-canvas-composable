@@ -169,9 +169,9 @@ fun DrawSimpleArc(
 	Canvas(modifier = modifier.size(minSize)) {
 		drawArc(
 			color = color,
-			startAngle = 180f,
-			sweepAngle = 180f,
-			useCenter = false,
+			startAngle = 180f,    // 0f is at 3 o'clock of the circle
+			sweepAngle = 180f,    // go 180° from startAngle
+			useCenter = false,    // whether to fill the arc or not
 			style = Stroke(width = 2.dp.toPx())
 		)
 	}
@@ -186,14 +186,17 @@ fun DrawSimplePath(
 	Canvas(modifier = modifier.size(minSize)) {
 
 		val path = Path().apply {
-			lineTo(size.width, 0f)
-			quadraticBezierTo(
+			lineTo(size.width, 0f)    // line from start to end
+			quadraticBezierTo(            // arc from the top to  bottom
 				size.width / 2, size.height / 2,
 				size.width, size.height
 			)
-			lineTo(0f, size.height)
-			quadraticBezierTo(size.width / 2, size.height / 2, 0f, 0f)
-			close()
+			lineTo(0f, size.height) // line from end to start
+			quadraticBezierTo(            // arc from bottom to top
+				size.width / 2, size.height / 2,
+				0f, 0f
+			)
+			close()                        // link end to start
 		}
 
 		drawPath(
@@ -213,7 +216,13 @@ fun DrawSimplePoints(
 	Canvas(modifier = modifier.size(minSize)) {
 
 		drawPoints(
-			points = listOf(Offset(0f, 0f), Offset(size.width, 0f), Offset(size.width, size.height), Offset(0f, size.height), Offset(size.width / 2, size.height / 2)),
+			points = listOf(
+				Offset(0f, 0f),
+				Offset(size.width, 0f),
+				Offset(size.width, size.height),
+				Offset(0f, size.height),
+				Offset(size.width / 2, size.height / 2)
+			),
 			color = color,
 			pointMode = PointMode.Points,
 			strokeWidth = 2.dp.toPx()
